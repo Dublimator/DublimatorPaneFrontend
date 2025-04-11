@@ -55,4 +55,13 @@ header {
 .name {
   margin: 0;
 }
+
+@media screen and (max-width: 1024px) {
+  .name {
+    font-size: 24px;
+  }
+  header {
+    margin: 8px auto 8px auto ;
+  }
+}
 </style>

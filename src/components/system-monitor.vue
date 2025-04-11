@@ -4,7 +4,7 @@ import {ref} from "vue";
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from "vue3-circle-progress";
 import axios from "axios";
-import {SERVER_NAME, URL_API} from "../../config.ts";
+import {METRICS_TIMEOUT, SERVER_NAME, URL_API} from "../../config.ts";
 
 import {openModal} from "../App.vue"
 
@@ -32,8 +32,12 @@ async function fetchData() {
 }
 
 // Устанавливаем интервал для выполнения fetchData каждые 3 секунды (3000 миллисекунд)
-setInterval(fetchData, 1000);
+setInterval(fetchData, METRICS_TIMEOUT);
 
+
+function getWindowWidth(): number {
+  return window.innerWidth;
+}
 
 </script>
 
@@ -48,8 +52,7 @@ setInterval(fetchData, 1000);
         <span class="alert">Уведомления</span>
       </a>
     </header>
-    <div class="bars">
-
+    <div v-if="getWindowWidth() > 645" class="bars">
       <!--  Load CPU  -->
       <div v-if="res" class="progress-bar">
         <circle-progress
@@ -75,6 +78,7 @@ setInterval(fetchData, 1000);
             :border-bg-width="5"
             :border-width="5"
             empty-color="#747474"
+
         />
         <div class="progress-text">
           <p>RAM</p>
@@ -99,7 +103,22 @@ setInterval(fetchData, 1000);
             {{ Math.ceil(res.disk.usage / 1024) + " GB" }}</p>
         </div>
       </div>
-
+    </div>
+    <div v-if="getWindowWidth() <= 645 && res"  class="info">
+      <div class="progress-text">
+        <p class="name-metrics">CPU</p>
+        <p class="load">{{ loadsPercent.cpu }}%</p>
+      </div>
+      <div class="progress-text">
+        <p class="name-metrics">RAM</p>
+        <p class="load">{{ Math.ceil(res.memory.total) + " MB" }} /
+          {{ Math.ceil(res.memory.usage) + " MB" }}</p>
+      </div>
+      <div class="progress-text">
+        <p class="name-metrics">STORAGE</p>
+        <p class="load">{{ Math.ceil(res.disk.total / 1024) + " GB" }} /
+          {{ Math.ceil(res.disk.usage / 1024) + " GB" }}</p>
+      </div>
     </div>
 
   </div>
@@ -181,6 +200,36 @@ setInterval(fetchData, 1000);
   max-width: 800px;
   margin-top: 32px;
   margin-inline: 32px;
+}
+
+
+@media screen and (max-width: 645px) {
+  .info {
+    display: flex;
+    flex-direction: column;
+  }
+  .progress-text {
+    transform: none;
+    align-items: start;
+    margin: 8px 8px 8px 16px;
+    font-size: 14px;
+  }
+  .header {
+    margin-inline: 16px;
+  }
+  .alert {
+    max-width: 128px;
+    font-size: 12px;
+  }
+  .name {
+    font-size: 16px;
+  }
+  .uptime {
+    font-size: 12px;
+  }
+  .name-metrics {
+    color: #14A76C;
+  }
 }
 
 </style>

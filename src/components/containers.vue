@@ -3,7 +3,7 @@
 // Функция для выполнения GET запроса
 import axios from "axios";
 import {ref} from "vue";
-import {URL_API} from "../../config.ts";
+import {METRICS_TIMEOUT, URL_API} from "../../config.ts";
 
 const res = ref()
 
@@ -16,7 +16,7 @@ async function fetchData() {
 }
 
 // Устанавливаем интервал для выполнения fetchData каждые 3 секунды (3000 миллисекунд)
-setInterval(fetchData, 1000);
+setInterval(fetchData, METRICS_TIMEOUT);
 
 
 
@@ -32,7 +32,7 @@ setInterval(fetchData, 1000);
         </div>
         <div class="info size304">
           <p class="name">NAME</p>
-          <p class="stopped-data">{{(container.name).slice(1)}}</p>
+          <p class="stopped-data">{{(container.name)}}</p>
         </div>
         <p class="stopped-title">Контейнер остановлен</p>
       </div>
@@ -46,7 +46,7 @@ setInterval(fetchData, 1000);
         </div>
         <div class="info size304">
           <p class="name">NAME</p>
-          <p class="data">{{(container.name).slice(1)}}</p>
+          <p class="data">{{(container.name)}}</p>
         </div>
         <div class="info size60">
           <p class="name">CPU %</p>
@@ -131,6 +131,25 @@ setInterval(fetchData, 1000);
   color: #FF652F;
   font-size: 24px;
   margin-right: 32px;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    justify-content: left;
+    align-items: start;
+  }
+
+  .info {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .data {
+    margin-left: 16px;
+  }
 }
 
 </style>
