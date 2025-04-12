@@ -147,7 +147,7 @@ setInterval(fetchData, METRICS_TIMEOUT);
     margin-top: 8px;
   }
 
-  .data {
+  .data, .stopped-data {
     margin-left: 16px;
   }
 }

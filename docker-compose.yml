@@ -1,10 +1,12 @@
 version: '3.8'
 services:
   app:
-    build: .
+    container_name: dublimator-pane-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
     volumes:
-      - ./dist:/app/dist
-    environment:
-      - NODE_ENV=production
+      - ./dist:/usr/share/nginx/html:ro
+    restart: unless-stopped

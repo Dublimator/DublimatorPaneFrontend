@@ -154,5 +154,9 @@ const saveData = async () => {
   background-color: #14A76C;
   color: #2D2D2D;
 }
-
+@media screen and (max-width: 1024px) {
+  .modal-body {
+    flex-direction: column;
+  }
+}
 </style>
